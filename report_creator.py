@@ -21,13 +21,15 @@ METADATA_FILE_NAME = config.metadata_file_name
 WORKSPACE_NAME = config.workspace_name
 LAKEHOUSE_NAME = config.lakehouse_name
 LAKEHOUSE_TABLE_NAME = config.lakehouse_table_name
-LAKEHOUSE_METADATA_DIRECTORY = config.lakehouse_metadata_directory
+LAKEHOUSE_METADATA_DIRECTORY_NAME = config.lakehouse_metadata_directory_name
 SEMANTIC_MODEL_NAME = config.semantic_model_name
-SEMANTIC_MODEL_FOLDER =  config.semantic_model_folder
-REPORT_NAME = config.report_name
-REPORT_FOLDER = config.report_folder
-AUTH_USERNAME = config.auth_username
-AUTH_PASSWORD = config.auth_password
+SEMANTIC_MODEL_DESCRIPTION = config.semantic_model_description
+SEMANTIC_MODEL_FOLDER_PATH =  config.semantic_model_folder_path
+POWER_BI_REPORT_NAME = config.power_bi_report_name
+POWER_BI_REPORT_DESCRIPTION = config.power_bi_report_description
+POWER_BI_REPORT_FOLDER_PATH = config.power_bi_report_folder_path
+AUTH_USERNAME = config.microsoft_login_username
+AUTH_PASSWORD = config.microsoft_login_password
 
 def get_fabric_access_token():
     app_authority = f"https://login.microsoftonline.com/{TENANT_ID}/"
@@ -104,7 +106,7 @@ def upload_file_to_lakehouse():
     token_credential = DefaultAzureCredential()   
     service_client = DataLakeServiceClient(account_url, credential=token_credential)
     file_system_client = create_file_system_client(service_client, WORKSPACE_NAME)
-    directory_client = create_directory(file_system_client, LAKEHOUSE_METADATA_DIRECTORY)
+    directory_client = create_directory(file_system_client, LAKEHOUSE_METADATA_DIRECTORY_NAME)
     upload_file_to_directory(directory_client, f"{METADATA_FOLDER_PATH}/{METADATA_FILE_NAME}")
     
 def load_lakehouse_table(token, lakehouse_id):
@@ -116,7 +118,7 @@ def load_lakehouse_table(token, lakehouse_id):
     }
 
     table_payload = {
-        "relativePath": f"Files/{LAKEHOUSE_METADATA_DIRECTORY}/{METADATA_FILE_NAME}",
+        "relativePath": f"Files/{LAKEHOUSE_METADATA_DIRECTORY_NAME}/{METADATA_FILE_NAME}",
         "pathType": "File",
         "mode": "Overwrite",
         "recursive": False,
@@ -171,7 +173,7 @@ def append_all_files(parts: list, pattern: re.Pattern[str], base_dir=".", datase
 def create_dataset_payload():
     dataset_payload = {}
     dataset_payload["displayName"] = SEMANTIC_MODEL_NAME
-    dataset_payload["description"] = "Data on Netflix movies"
+    dataset_payload["description"] = SEMANTIC_MODEL_DESCRIPTION
     parts = []
     regexp = re.compile(r"definition/|definition.pbism|diagramLayout.json|.platform")
     append_all_files(parts, regexp)
@@ -181,8 +183,8 @@ def create_dataset_payload():
 
 def create_report_payload(dataset_id, dataset_name, workspace_name):
     report_payload = {}
-    report_payload["displayName"] = REPORT_NAME
-    report_payload["description"] = "Report on Netflix movies"
+    report_payload["displayName"] = POWER_BI_REPORT_NAME
+    report_payload["description"] = POWER_BI_REPORT_DESCRIPTION
     parts = []
     regexp = re.compile(r"CustomVisuals/|StaticResources/|definition.pbir|definition/|semanticModelDiagramLayout.json|mobileState.json")
     append_all_files(parts, regexp, dataset_id=dataset_id, dataset_name=dataset_name, workspace_name=workspace_name)
@@ -198,8 +200,8 @@ def create_semantic_model(token):
         "Authorization": f"Bearer {token}"
     }
 
-    semantic_model_folder = SEMANTIC_MODEL_FOLDER
-    os.chdir(semantic_model_folder)
+    semantic_model_folder_path = SEMANTIC_MODEL_FOLDER_PATH
+    os.chdir(semantic_model_folder_path)
     dataset_payload = create_dataset_payload()
     response = wait_for_resource_creation(url, headers, dataset_payload)
     return response
@@ -248,8 +250,8 @@ def create_report(token, dataset_id, dataset_name):
         "Authorization": f"Bearer {token}"
     }
 
-    report_folder = REPORT_FOLDER
-    os.chdir(report_folder)
+    power_bi_report_folder_path = POWER_BI_REPORT_FOLDER_PATH
+    os.chdir(power_bi_report_folder_path)
     report_payload = create_report_payload(dataset_id, dataset_name, WORKSPACE_NAME)
     requests.post(url, headers=headers, json=report_payload)
 

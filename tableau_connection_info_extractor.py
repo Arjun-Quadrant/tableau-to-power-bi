@@ -1,17 +1,18 @@
 import xml.etree.ElementTree as ET
 import pandas as pd
 import re
+import config
+import os
 from openpyxl import load_workbook
 from openpyxl.utils import get_column_letter
-import config
 
 METADATA_FOLDER_PATH = config.metadata_folder_path
 METADATA_FILE_NAME = config.metadata_file_name
-WORKBOOK_PATH = config.workbook_path
+TABLEAU_WORKBOOK_PATH = config.tableau_workbook_path
 
 # 🔹 Extract and Save Metadata
 def extract_datasource_metadata():
-    tree = ET.parse(WORKBOOK_PATH)
+    tree = ET.parse(TABLEAU_WORKBOOK_PATH)
     root = tree.getroot()
     datasources = []
     for datasource in root.findall("datasources/datasource"):
@@ -189,6 +190,8 @@ def save_to_excel(datasource_info, sheet_name):
     wb.save(metadata_file_path)
 
 def save_to_csv(datasource_info):
+    if not os.path.exists(METADATA_FOLDER_PATH):
+        os.makedirs(METADATA_FOLDER_PATH)
     metadata_file_path = f"{METADATA_FOLDER_PATH}/{METADATA_FILE_NAME}"
     df_datasources = pd.DataFrame(datasource_info)
     df_datasources.to_csv(path_or_buf=metadata_file_path, index=False)
