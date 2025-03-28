@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Data</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body id="upload-page">
+    <header>
+        <img src="static/logo.png" alt="Logo">
+        <nav>
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('extract') }}">Extract Data</a>
+            <a href="{{ url_for('upload') }}">Upload Data</a>
+            <a href="{{ url_for('report') }}">View Report</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <form id="uploadForm">
+                <h2>Load Data to Lakehouse</h2>
+                <button id="uploadButton"><a href='upload/start' style="color: #fff;">Upload</a></button>
+            </form>
+        </div>
+    </main>
+
+    <div id="loader-overlay">
+        <div id="loader"></div>
+    </div>
+
+    <div id="popup-overlay">
+        <div id="popup">
+            <p id="popup-message"></p>
+            <button onclick="closePopup()">OK</button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+
+</html>

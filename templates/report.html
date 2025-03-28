@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Report</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body id="report-page">
+    <header>
+        <img src="static/logo.png" alt="Logo">
+        <nav>
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('extract') }}">Extract Data</a>
+            <a href="{{ url_for('upload') }}">Upload Data</a>
+            <a href="{{ url_for('report') }}">View Report</a>
+        </nav>
+    </header>
+
+    <main>
+        <form id="reportForm">
+            <h2>Power Bi Report</h2>
+            <button id="reportButton">
+                <a href='https://app.powerbi.com/groups/89723aa4-edf2-4d37-95ce-a65c4c74d490/reports/ea0d965d-1129-4893-a001-171922dff30b/0743917a98d0ed0a8ba1?experience=power-bi'
+                   style="color: #fff;">Upload</a>
+            </button>
+        </form>
+    </main>
+
+    <div id="loader-overlay">
+        <div id="loader"></div>
+    </div>
+
+    <div id="popup-overlay">
+        <div id="popup">
+            <p id="popup-message"></p>
+            <button onclick="closePopup()">OK</button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html>

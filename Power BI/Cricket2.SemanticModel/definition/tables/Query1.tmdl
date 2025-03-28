@@ -1,0 +1,189 @@
+table Query1
+	lineageTag: e2b73abb-383e-455e-93b7-7db5a8a2263b
+
+	column match_no
+		dataType: int64
+		formatString: 0
+		lineageTag: df681e59-093c-4e78-b58e-739ebf8d86e9
+		summarizeBy: sum
+		sourceColumn: match_no
+
+		annotation SummarizationSetBy = Automatic
+
+	column date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 859b49f1-a3c7-492d-b800-8c818c5b6ff8
+		summarizeBy: none
+		sourceColumn: date
+
+		variation Variation
+			isDefault
+			relationship: 9800516e-5c40-4dd8-b499-23084d1abcfa
+			defaultHierarchy: LocalDateTable_fbd83717-0c01-4f45-b887-44baebf77fcc.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column stage
+		dataType: string
+		lineageTag: a1fe6516-bb4d-493d-9a71-9fcbcabe6454
+		summarizeBy: none
+		sourceColumn: stage
+
+		annotation SummarizationSetBy = Automatic
+
+	column venue
+		dataType: string
+		lineageTag: 6662c173-3b38-49c9-9d0c-abbd689cca59
+		summarizeBy: none
+		sourceColumn: venue
+
+		annotation SummarizationSetBy = Automatic
+
+	column batting_team
+		dataType: string
+		lineageTag: 76dc4b98-7e1f-4a4c-8874-8fee69d1e0b1
+		summarizeBy: none
+		sourceColumn: batting_team
+
+		annotation SummarizationSetBy = Automatic
+
+	column bowling_team
+		dataType: string
+		lineageTag: 3ab98db4-788b-4693-bae4-886aad25f5c5
+		summarizeBy: none
+		sourceColumn: bowling_team
+
+		annotation SummarizationSetBy = Automatic
+
+	column innings
+		dataType: int64
+		formatString: 0
+		lineageTag: b237a3c6-cdcd-4dd9-b9df-de7ea7d2f1cf
+		summarizeBy: sum
+		sourceColumn: innings
+
+		annotation SummarizationSetBy = Automatic
+
+	column over
+		dataType: double
+		lineageTag: 921fca84-c0a9-49c6-887a-c7bb83d2a098
+		summarizeBy: sum
+		sourceColumn: over
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column striker
+		dataType: string
+		lineageTag: b05df21b-a370-4510-a9ce-6963c1aa63a0
+		summarizeBy: none
+		sourceColumn: striker
+
+		annotation SummarizationSetBy = Automatic
+
+	column bowler
+		dataType: string
+		lineageTag: 7f32d75b-6b61-4208-b1f1-da95b2d346d7
+		summarizeBy: none
+		sourceColumn: bowler
+
+		annotation SummarizationSetBy = Automatic
+
+	column runs_of_bat
+		dataType: int64
+		formatString: 0
+		lineageTag: 89c97c70-21c0-4f5a-82d8-90874e476b2c
+		summarizeBy: sum
+		sourceColumn: runs_of_bat
+
+		annotation SummarizationSetBy = Automatic
+
+	column extras
+		dataType: int64
+		formatString: 0
+		lineageTag: 4d72b810-1da7-4670-bbaf-bd070118be0e
+		summarizeBy: sum
+		sourceColumn: extras
+
+		annotation SummarizationSetBy = Automatic
+
+	column wide
+		dataType: int64
+		formatString: 0
+		lineageTag: e68e42bd-9782-4f12-8001-7c03b010a426
+		summarizeBy: sum
+		sourceColumn: wide
+
+		annotation SummarizationSetBy = Automatic
+
+	column legbyes
+		dataType: int64
+		formatString: 0
+		lineageTag: e60946e5-b558-4af6-ab0a-b958365336e8
+		summarizeBy: sum
+		sourceColumn: legbyes
+
+		annotation SummarizationSetBy = Automatic
+
+	column byes
+		dataType: int64
+		formatString: 0
+		lineageTag: c3c3c4c7-c815-4230-b4e7-7dd9edede90c
+		summarizeBy: sum
+		sourceColumn: byes
+
+		annotation SummarizationSetBy = Automatic
+
+	column noballs
+		dataType: int64
+		formatString: 0
+		lineageTag: 6cd7d053-46a0-4fc4-9400-a6069f6dc487
+		summarizeBy: sum
+		sourceColumn: noballs
+
+		annotation SummarizationSetBy = Automatic
+
+	column wicket_type
+		dataType: string
+		lineageTag: 36d1ddfc-eb28-4727-901e-d14b544af816
+		summarizeBy: none
+		sourceColumn: wicket_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column player_dismissed
+		dataType: string
+		lineageTag: 69bda7c4-ba67-4fc1-8a50-9367c45ce3db
+		summarizeBy: none
+		sourceColumn: player_dismissed
+
+		annotation SummarizationSetBy = Automatic
+
+	column fielder
+		dataType: string
+		lineageTag: 7865e44e-b579-415b-b254-e17d6b601fcc
+		summarizeBy: none
+		sourceColumn: fielder
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Query1 = m
+		mode: import
+		source =
+				let
+				    Source = SharePoint.Files("https://arjunnarendra1gmail.sharepoint.com/sites/DatasourcesforPowerBIReports", [ApiVersion = 15]),
+				    #"deliveries csv_https://arjunnarendra1gmail sharepoint com/sites/DatasourcesforPowerBIReports/Shared Documents/" = Source{[Name="deliveries.csv",#"Folder Path"="https://arjunnarendra1gmail.sharepoint.com/sites/DatasourcesforPowerBIReports/Shared Documents/"]}[Content],
+				    #"Imported CSV" = Csv.Document(#"deliveries csv_https://arjunnarendra1gmail sharepoint com/sites/DatasourcesforPowerBIReports/Shared Documents/",[Delimiter=",", Columns=19, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"match_no", Int64.Type}, {"date", type date}, {"stage", type text}, {"venue", type text}, {"batting_team", type text}, {"bowling_team", type text}, {"innings", Int64.Type}, {"over", type number}, {"striker", type text}, {"bowler", type text}, {"runs_of_bat", Int64.Type}, {"extras", Int64.Type}, {"wide", Int64.Type}, {"legbyes", Int64.Type}, {"byes", Int64.Type}, {"noballs", Int64.Type}, {"wicket_type", type text}, {"player_dismissed", type text}, {"fielder", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

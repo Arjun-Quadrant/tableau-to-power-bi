@@ -1,2 +1,2 @@
-# tableau-to-power-bi
-Migrate Tableau workbooks to Power BI reports
+# Tableau-to-Power-BI
+Convert a Tableau workbook into a Power BI report

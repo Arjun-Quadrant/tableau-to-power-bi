@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            height: 100vh;
+            animation: fadeInBody 1.5s ease-in-out;
+        }
+
+        @keyframes fadeInBody {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(90deg, #4562a0, #92a3c9);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        header img {
+            width: 180px;
+            height: auto;
+            filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.1));
+        }
+
+        /* Page Layout */
+        .main-container {
+            display: flex;
+            flex: 1;
+            height: 100%;
+            margin-top: 40px;
+        }
+
+        .left-section {
+            flex: 1;
+            position: relative;
+            background: url('static/tbt.png') no-repeat center center/cover;
+        }
+
+        .left-section::before {
+            content: "Seamless Migration from Tableau to Power BI";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.8em;
+            font-weight: bold;
+            color: black;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            opacity: 0;
+            animation: fadeInText 5s forwards;
+        }
+
+        @keyframes fadeInText {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -60%);
+            }
+
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        .right-section {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+        .form-container {
+            width: 60%;
+            min-width: 250px;
+            border-radius: 15px;
+            padding: 50px;
+            background: rgb(74, 175, 196, 0.40);
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        h2 {
+            text-align: center;
+            color: #4562a0;
+            font-size: 2em;
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        input, button {
+            border-radius: 8px;
+            padding: 14px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            font-size: 1em;
+        }
+
+        input:focus {
+            border: 2px solid #1fa6c1;
+            box-shadow: 0 0 10px rgba(31, 166, 193, 0.4);
+            transform: scale(1.02);
+        }
+
+        button {
+            background: linear-gradient(135deg, #1fa6c1, #344d80);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #344d80, #1fa6c1);
+            transform: scale(1.05);
+        }
+
+        p {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        p a {
+            transition: all 0.3s ease-in-out;
+            text-decoration: none;
+            color: #344d80;
+        }
+
+        p a:hover {
+             color: #1fa6c1;
+             text-decoration: underline;
+             font-weight: bold;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <img src="static/logo.png" alt="Logo">
+    </header>
+
+    <div class="main-container">
+        <div class="left-section"></div>
+        <div class="right-section">
+            <div class="form-container">
+                <h2>Login</h2>
+                <form id="loginForm">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                    <button type="submit">Login</button>
+                    <p style="text-align: center; margin-top: 10px;">
+                        <a href="/forgot-password" style="color: #4562a0; text-decoration: none;">Forgot Password?</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            window.location.href = "/home";
+        });
+    </script>
+
+</body>
+
+</html>
